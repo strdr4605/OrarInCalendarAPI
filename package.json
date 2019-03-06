@@ -1,9 +1,10 @@
 {
-  "name": "orar-in-calendar",
+  "name": "orar-in-calendar-api",
   "version": "0.0.0",
-  "description": "OrarInCalendar",
+  "description": "OrarInCalendarAPI",
   "author": "Dragos Strainu",
   "license": "MIT",
+  "private": true,
   "husky": {
     "hooks": {
       "pre-commit": "npm run pre-commit"
@@ -17,6 +18,8 @@
     "start:debug": "nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && tsc",
     "start:prod": "node dist/main.js",
+    "bin:xlsx": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register src/modules/xlsx/index.ts",
+    "debug:bin:xlsx": "node --inspect-brk -r ts-node/register -r dotenv/config -r tsconfig-paths/register src/modules/xlsx/index.ts",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -31,7 +34,8 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "@nestjs/testing": "^5.1.0",

@@ -1,4 +1,4 @@
-# OrarInCalendar
+# OrarInCalendarAPI
 App that parse university files with schedule and creates google calendars
 
 
