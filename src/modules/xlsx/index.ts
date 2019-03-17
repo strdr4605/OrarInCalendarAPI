@@ -1,5 +1,14 @@
 import * as _ from 'lodash';
-import { CellAddress, CellObject, Range, readFile, utils, WorkBook, WorkSheet, writeFile } from 'xlsx';
+import {
+  CellAddress,
+  CellObject,
+  Range,
+  readFile,
+  utils,
+  WorkBook,
+  WorkSheet,
+  writeFile,
+} from 'xlsx';
 
 const inputFile: string = '/assets/inputs/schedule1.xls';
 const outputFile: string = '/assets/outputs/result1.xls';
@@ -62,7 +71,7 @@ function getCellNameFromCellAddress(cellAddress: CellAddress): string {
   const order: number = cellAddress.c % lettersInAlphabet;
   const letter: string = String.fromCharCode(startPosition + order);
   cellName += cellAddress.c > lettersInAlphabet ? 'A' + letter : letter;
-  return (cellName + cellAddress.r);
+  return cellName + cellAddress.r;
 }
 
 /**
@@ -102,8 +111,11 @@ function fillMerges(ws: WorkSheet): void {
  * @returns next column name
  */
 function getNextColumn(column: string): string {
-  let nextColumn: string = column.substring(0, column.length - 1) + String.fromCharCode(column.charCodeAt(column.length - 1) + 1);
-  if (nextColumn[nextColumn.length - 1] === '[') { // next char after 'Z'
+  let nextColumn: string =
+    column.substring(0, column.length - 1) +
+    String.fromCharCode(column.charCodeAt(column.length - 1) + 1);
+  // next char after 'Z'
+  if (nextColumn[nextColumn.length - 1] === '[') {
     const arr: string[] = nextColumn.split('');
     arr.pop();
     nextColumn = arr.join().concat('AA');
