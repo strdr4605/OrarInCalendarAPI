@@ -3,6 +3,10 @@ import { CellAddress, CellObject, Range, readFile, utils, WorkBook, WorkSheet, w
 import { IRangeMap } from './interface';
 import { REJECT_REGEX } from './regex';
 
+/**
+ * Utils that read, write and change XLS docs
+ * @class
+ */
 export class XLSUtils {
   // tslint:disable:no-console
   /* helper to generate the workbook object */
@@ -125,7 +129,13 @@ export class XLSUtils {
     return cells;
   }
 
-  static instanceOfCellObject(object: any): object is CellObject {
+  /**
+   * Check if a variable is type of CellObject
+   * @static
+   * @param {any} object - any type
+   * @returns true or false
+   */
+  static typeOfCellObject(object: any): object is CellObject {
     return typeof object === 'object' && !Array.isArray(object) && 't' in object;
   }
 }

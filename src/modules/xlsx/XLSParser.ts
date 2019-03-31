@@ -1,8 +1,12 @@
 import { CellObject, WorkSheet } from 'xlsx/types';
-import { GROUPS, IWeekdaysHoursRows, XLSCourseHoursEnum, XLSWeekdaysEnum } from './interface';
+import { COURSE_SPACE, GROUPS, IWeekdaysHoursRows, XLSCourseHoursEnum, XLSWeekdaysEnum } from './interface';
 import { COLUMN_REGEX, GROUP_NAME_REGEX, NUMBER_REGEX, rowRegex } from './regex';
 import { XLSUtils } from './XLSUtils';
 
+/**
+ * Used for parsing and extracting data from XLS docs
+ * @class
+ */
 export class XLSParser {
   groupsRow: number;
   groupsColumns: Record<string, string>;
@@ -10,13 +14,17 @@ export class XLSParser {
 
   constructor(private readonly ws: WorkSheet) {
     this.groupsRow = this.getGroupsRow();
-    this.getGroupColumns();
+    this.getGroupsColumns();
     this.getWeekdaysHoursRows();
   }
 
+  /**
+   * Find the row number that match with GROUPS constant
+   * @returns row number
+   */
   private getGroupsRow(): number {
     for (const key of Object.keys(this.ws)) {
-      if (!XLSUtils.instanceOfCellObject(this.ws[key])) continue;
+      if (!XLSUtils.typeOfCellObject(this.ws[key])) continue;
       const cellObject = this.ws[key] as CellObject;
       if (cellObject.w.match(new RegExp(GROUPS))) {
         return +key.match(NUMBER_REGEX)[0];
@@ -26,10 +34,14 @@ export class XLSParser {
     throw new Error(`CellObject with w: '${GROUPS}' not found`);
   }
 
-  private getGroupColumns(): void {
+  /**
+   * Find every column on specific row that much with GROUP_NAME_REGEX
+   * saves them in this.groupsColumns
+   */
+  private getGroupsColumns(): void {
     this.groupsColumns = {};
     for (const key of Object.keys(this.ws)) {
-      if (!XLSUtils.instanceOfCellObject(this.ws[key]) || !key.match(rowRegex(this.groupsRow))) continue;
+      if (!XLSUtils.typeOfCellObject(this.ws[key]) || !key.match(rowRegex(this.groupsRow))) continue;
       const cellObject = this.ws[key] as CellObject;
       if (cellObject.w.match(new RegExp(GROUP_NAME_REGEX))) {
         this.groupsColumns[cellObject.w] = key.match(COLUMN_REGEX)[0];
@@ -37,6 +49,10 @@ export class XLSParser {
     }
   }
 
+  /**
+   * Find every row number for every CourseHour in every Weekday
+   * saves them in this.weekdaysHoursRows
+   */
   private getWeekdaysHoursRows(): void {
     this.weekdaysHoursRows = {
       [XLSWeekdaysEnum.Monday]: {
@@ -87,14 +103,14 @@ export class XLSParser {
     };
 
     for (const key of Object.keys(this.ws)) {
-      if (!XLSUtils.instanceOfCellObject(this.ws[key])) continue;
+      if (!XLSUtils.typeOfCellObject(this.ws[key])) continue;
       const cellObject = this.ws[key] as CellObject;
       for (const day of Object.keys(XLSWeekdaysEnum)) {
         if (cellObject.w.match(new RegExp(XLSWeekdaysEnum[day]))) {
           let currentHourRow = +key.match(NUMBER_REGEX)[0];
           for (const hour of Object.keys(XLSCourseHoursEnum)) {
             this.weekdaysHoursRows[XLSWeekdaysEnum[day]][XLSCourseHoursEnum[hour]] = currentHourRow;
-            currentHourRow += 6;
+            currentHourRow += COURSE_SPACE;
           }
         }
       }
