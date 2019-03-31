@@ -1,5 +1,5 @@
 import { CellObject, WorkSheet } from 'xlsx/types';
-import { COURSE_SPACE, GROUPS, IWeekdaysHoursRows, XLSCourseHoursEnum, XLSWeekdaysEnum } from './interface';
+import { COURSE_SPACE, GROUPS, ICourseInfo, WeekdaysHoursRows, XLSCourseHoursEnum, XLSWeekdaysEnum } from './interface';
 import { COLUMN_REGEX, GROUP_NAME_REGEX, NUMBER_REGEX, rowRegex } from './regex';
 import { XLSUtils } from './XLSUtils';
 
@@ -10,7 +10,7 @@ import { XLSUtils } from './XLSUtils';
 export class XLSParser {
   groupsRow: number;
   groupsColumns: Record<string, string>;
-  weekdaysHoursRows: IWeekdaysHoursRows;
+  weekdaysHoursRows: WeekdaysHoursRows;
 
   constructor(private readonly ws: WorkSheet) {
     this.groupsRow = this.getGroupsRow();
@@ -115,5 +115,59 @@ export class XLSParser {
         }
       }
     }
+  }
+
+  /**
+   * Get Info about a course on specific row and column
+   * @param {string} column - column of couse info
+   * @param {number} startRow - row number of course info
+   * @returns Course info (stable, even, odd)!
+   */
+  getCourseInfo(column: string, startRow: number): ICourseInfo {
+    const courseInfo: ICourseInfo = {};
+    if (this.ws[`${column}${startRow}`]) {
+      courseInfo.even = this.getEvenOrOddCourseInfo(column, startRow);
+    }
+    if (this.ws[`${column}${startRow + 3}`]) {
+      courseInfo.odd = this.getEvenOrOddCourseInfo(column, startRow + 3);
+    }
+    if (!courseInfo.even || !courseInfo.odd) {
+      courseInfo.stable = this.getStableCourseInfo(column, startRow).length > 0 ? this.getStableCourseInfo(column, startRow) : undefined;
+    }
+    return courseInfo;
+  }
+
+  /**
+   * Conbine cells from 3 row in one string
+   * @param {string} column - column of couse info
+   * @param {number} startRow - row number of course info
+   * @returns string with course info
+   */
+  getEvenOrOddCourseInfo(column: string, startRow: number): string {
+    let info: string = (this.ws[`${column}${startRow}`] as CellObject).w + '\n';
+    if (this.ws[`${column}${startRow + 1}`]) {
+      info += (this.ws[`${column}${startRow + 1}`] as CellObject).w + '\n';
+    }
+    if (this.ws[`${column}${startRow + 2}`]) {
+      info += (this.ws[`${column}${startRow + 2}`] as CellObject).w + '\n';
+    }
+    return info;
+  }
+
+  /**
+   * Conbine cells from 6 row in one string
+   * @param {string} column - column of couse info
+   * @param {number} startRow - row number of course info
+   * @returns string with course info
+   */
+  getStableCourseInfo(column: string, startRow: number): string {
+    let info: string = '';
+    const endRow = startRow + COURSE_SPACE - 1;
+    for (let i = startRow; i <= endRow; i++) {
+      if (this.ws[`${column}${i}`]) {
+        info += (this.ws[`${column}${i}`] as CellObject).w + '\n';
+      }
+    }
+    return info;
   }
 }

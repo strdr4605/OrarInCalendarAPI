@@ -26,4 +26,10 @@ export interface IRangeMap {
   end: string;
 }
 
-export type IWeekdaysHoursRows = { [key in XLSWeekdaysEnum]: { [key2 in XLSCourseHoursEnum]: number } };
+export interface ICourseInfo {
+  stable?: string;
+  even?: string;
+  odd?: string;
+}
+
+export type WeekdaysHoursRows = { [key in XLSWeekdaysEnum]: { [key2 in XLSCourseHoursEnum]: number } };

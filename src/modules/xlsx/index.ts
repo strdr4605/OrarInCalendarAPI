@@ -1,5 +1,6 @@
 import { utils } from 'xlsx';
 import { WorkBook, WorkSheet } from 'xlsx/types';
+import { ICourseInfo } from './interface';
 import { XLSParser } from './XLSParser';
 import { XLSUtils } from './XLSUtils';
 
@@ -17,9 +18,10 @@ function run() {
   // XLSUtils.saveToFile(OUTPUT_FILE, data);
 
   const xlsParser: XLSParser = new XLSParser(ws);
-  console.log(xlsParser.groupsRow);
-  console.log(JSON.stringify(xlsParser.groupsColumns, undefined, 2));
-  console.log(JSON.stringify(xlsParser.weekdaysHoursRows, undefined, 2));
+  // console.log(JSON.stringify(xlsParser.groupsColumns, undefined, 2));
+  // console.log(JSON.stringify(xlsParser.weekdaysHoursRows, undefined, 2));
+  // const courseInfo: ICourseInfo = xlsParser.getCourse('R', 17);
+  // console.log(JSON.stringify(courseInfo, undefined, 2));
 }
 
 run();
