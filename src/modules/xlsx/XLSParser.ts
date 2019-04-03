@@ -184,6 +184,11 @@ export class XLSParser {
     return info;
   }
 
+  /**
+   * Get weekly schedule for specific group
+   * @param {string} groupName - Name of group to generate schedule
+   * @returns GroupName and Schedule
+   */
   getWeeklyScheduleByGroup(groupName: string): IGroupSchedule {
     const groupColumn: string | undefined = this.groupsColumns[groupName];
     if (groupColumn === undefined) {
