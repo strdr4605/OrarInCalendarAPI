@@ -20,8 +20,7 @@ function run() {
   const xlsParser: XLSParser = new XLSParser(ws);
   // console.log(JSON.stringify(xlsParser.groupsColumns, undefined, 2));
   // console.log(JSON.stringify(xlsParser.weekdaysHoursRows, undefined, 2));
-  // const courseInfo: ICourseInfo = xlsParser.getCourse('R', 17);
-  // console.log(JSON.stringify(courseInfo, undefined, 2));
+  console.log(JSON.stringify(xlsParser.getWeeklyScheduleByGroup('FAF-181'), undefined, 2));
 }
 
 run();

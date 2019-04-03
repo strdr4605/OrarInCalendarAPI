@@ -32,4 +32,10 @@ export interface ICourseInfo {
   odd?: string;
 }
 
+export interface IGroupSchedule {
+  groupName: string;
+  weeklySchedule: GroupWeeklySchedule;
+}
+
 export type WeekdaysHoursRows = { [key in XLSWeekdaysEnum]: { [key2 in XLSCourseHoursEnum]: number } };
+export type GroupWeeklySchedule = { [key in XLSWeekdaysEnum]: { [key2 in XLSCourseHoursEnum]: ICourseInfo } };

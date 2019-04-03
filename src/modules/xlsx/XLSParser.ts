@@ -1,5 +1,14 @@
 import { CellObject, WorkSheet } from 'xlsx/types';
-import { COURSE_SPACE, GROUPS, ICourseInfo, WeekdaysHoursRows, XLSCourseHoursEnum, XLSWeekdaysEnum } from './interface';
+import {
+  COURSE_SPACE,
+  GROUPS,
+  GroupWeeklySchedule,
+  ICourseInfo,
+  IGroupSchedule,
+  WeekdaysHoursRows,
+  XLSCourseHoursEnum,
+  XLSWeekdaysEnum,
+} from './interface';
 import { COLUMN_REGEX, GROUP_NAME_REGEX, NUMBER_REGEX, rowRegex } from './regex';
 import { XLSUtils } from './XLSUtils';
 
@@ -132,7 +141,7 @@ export class XLSParser {
       courseInfo.odd = this.getEvenOrOddCourseInfo(column, startRow + 3);
     }
     if (!courseInfo.even || !courseInfo.odd) {
-      courseInfo.stable = this.getStableCourseInfo(column, startRow).length > 0 ? this.getStableCourseInfo(column, startRow) : undefined;
+      courseInfo.stable = this.getStableCourseInfo(column, startRow).length ? this.getStableCourseInfo(column, startRow) : undefined;
     }
     return courseInfo;
   }
@@ -169,5 +178,70 @@ export class XLSParser {
       }
     }
     return info;
+  }
+
+  getWeeklyScheduleByGroup(groupName: string): IGroupSchedule {
+    const groupColumn: string | undefined = this.groupsColumns[groupName];
+    if (groupColumn === undefined) {
+      throw new Error(`Group Name '${groupName}' was not found.`);
+    }
+    const groupWeeklySchedule: GroupWeeklySchedule = {
+      [XLSWeekdaysEnum.Monday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Tuesday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Wednesday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Thursday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Friday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+    };
+
+    for (const day of Object.keys(this.weekdaysHoursRows)) {
+      for (const hour of Object.keys(this.weekdaysHoursRows[day])) {
+        groupWeeklySchedule[day][hour] = this.getCourseInfo(groupColumn, this.weekdaysHoursRows[day][hour]);
+      }
+    }
+
+    return {
+      groupName,
+      weeklySchedule: groupWeeklySchedule,
+    };
   }
 }
