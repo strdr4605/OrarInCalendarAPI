@@ -1,0 +1,87 @@
+{
+  "groupName": "FAF-181",
+  "weeklySchedule": {
+    "Luni": {
+      "8.00-9.30": {},
+      "9.45-11.15": {
+        "odd": "L.engleza\nE.Gogoi\n113\n",
+        "even": "Pr. Maticatici Speciale\nE. Cojuhari\n118\n"
+      },
+      "11.30-13.00": {
+        "stable": "Proiect\n115\n"
+      },
+      "13.30-15.00": {
+        "stable": "L.engleza\nE. Gogoi\n113\n"
+      },
+      "15.15-16.45": {
+        "stable": "Proiect\nMatematici Speciale\nE. Cojuhari\n113\n"
+      },
+      "17.00-18.30": {},
+      "18.45-20.15": {}
+    },
+    "Marţi": {
+      "8.00-9.30": {
+        "stable": "c. Fizica\nV. Tronciu, I. Sanduleac\n310\n"
+      },
+      "9.45-11.15": {
+        "stable": "lab. Fizica\nV. Tronciu,O. Mocreac\n304\n"
+      },
+      "11.30-13.00": {
+        "stable": "sem. Fizica\nV. Tronciu\n113\n"
+      },
+      "13.30-15.00": {},
+      "15.15-16.45": {},
+      "17.00-18.30": {},
+      "18.45-20.15": {}
+    },
+    "Miercuri": {
+      "8.00-9.30": {
+        "even": "c. Fizica\nV. Tronciu,I.Sanduleac\n310\n"
+      },
+      "9.45-11.15": {
+        "stable": "pr. SDA\nS. Corlat\n115\n"
+      },
+      "11.30-13.00": {
+        "odd": "lab. SDA\nS. Corat\n118\n"
+      },
+      "13.30-15.00": {
+        "odd": "lab. SDA\nS. Corat\n118\n"
+      },
+      "15.15-16.45": {},
+      "17.00-18.30": {},
+      "18.45-20.15": {}
+    },
+    "Joi": {
+      "8.00-9.30": {
+        "stable": "c.   Matematici speciale\nV. Bostan\n505\n"
+      },
+      "9.45-11.15": {
+        "stable": "c. Arhitectura Calculatoarelor\nV. Sudacevschi\n505\n"
+      },
+      "11.30-13.00": {
+        "even": "V. Sudacevschi\nS. Munteanu\n118\n"
+      },
+      "13.30-15.00": {
+        "even": "pr. AC\nV.Sudacevaschi\nS. Munteanu 118\n"
+      },
+      "15.15-16.45": {},
+      "17.00-18.30": {},
+      "18.45-20.15": {}
+    },
+    "Vineri": {
+      "8.00-9.30": {},
+      "9.45-11.15": {
+        "stable": "c. SDA\nS. Corlat\n118\n"
+      },
+      "11.30-13.00": {
+        "stable": "Ed. Fizica\n"
+      },
+      "13.30-15.00": {
+        "stable": "Proiectare\n118\n"
+      },
+      "15.15-16.45": {},
+      "17.00-18.30": {},
+      "18.45-20.15": {}
+    }
+  }
+}

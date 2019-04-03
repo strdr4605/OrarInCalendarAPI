@@ -133,15 +133,19 @@ export class XLSParser {
    * @returns Course info (stable, even, odd)!
    */
   getCourseInfo(column: string, startRow: number): ICourseInfo {
+    const isStable: boolean = !this.ws[`${column}${startRow}`] && !this.ws[`${column}${startRow + 5}`];
+    const isOdd: boolean = this.ws[`${column}${startRow}`];
+    const isEven: boolean = this.ws[`${column}${startRow + 3}`];
     const courseInfo: ICourseInfo = {};
-    if (this.ws[`${column}${startRow}`]) {
-      courseInfo.even = this.getEvenOrOddCourseInfo(column, startRow);
-    }
-    if (this.ws[`${column}${startRow + 3}`]) {
-      courseInfo.odd = this.getEvenOrOddCourseInfo(column, startRow + 3);
-    }
-    if (!courseInfo.even || !courseInfo.odd) {
+    if (isStable) {
       courseInfo.stable = this.getStableCourseInfo(column, startRow).length ? this.getStableCourseInfo(column, startRow) : undefined;
+    } else {
+      if (isOdd) {
+        courseInfo.odd = this.getEvenOrOddCourseInfo(column, startRow);
+      }
+      if (isEven) {
+        courseInfo.even = this.getEvenOrOddCourseInfo(column, startRow + 3);
+      }
     }
     return courseInfo;
   }
