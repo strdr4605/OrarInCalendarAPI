@@ -1,4 +1,5 @@
 import { CellObject, WorkSheet } from 'xlsx/types';
+import { Course } from './Course';
 import {
   COURSE_SPACE,
   GROUPS,
@@ -133,55 +134,17 @@ export class XLSParser {
    * @returns Course info (stable, even, odd)!
    */
   getCourseInfo(column: string, startRow: number): ICourseInfo {
-    const isStable: boolean = !this.ws[`${column}${startRow}`] && !this.ws[`${column}${startRow + 5}`];
-    const isOdd: boolean = this.ws[`${column}${startRow}`];
-    const isEven: boolean = this.ws[`${column}${startRow + 3}`];
-    const courseInfo: ICourseInfo = {};
-    if (isStable) {
-      courseInfo.stable = this.getStableCourseInfo(column, startRow).length ? this.getStableCourseInfo(column, startRow) : undefined;
-    } else {
-      if (isOdd) {
-        courseInfo.odd = this.getEvenOrOddCourseInfo(column, startRow);
-      }
-      if (isEven) {
-        courseInfo.even = this.getEvenOrOddCourseInfo(column, startRow + 3);
-      }
-    }
-    return courseInfo;
-  }
+    const courseCells: CellObject[] = [
+      this.ws[`${column}${startRow}`],
+      this.ws[`${column}${startRow + 1}`],
+      this.ws[`${column}${startRow + 2}`],
+      this.ws[`${column}${startRow + 3}`],
+      this.ws[`${column}${startRow + 4}`],
+      this.ws[`${column}${startRow + 5}`],
+    ];
+    const course = new Course(courseCells);
 
-  /**
-   * Conbine cells from 3 row in one string
-   * @param {string} column - column of couse info
-   * @param {number} startRow - row number of course info
-   * @returns string with course info
-   */
-  getEvenOrOddCourseInfo(column: string, startRow: number): string {
-    let info: string = (this.ws[`${column}${startRow}`] as CellObject).w + '\n';
-    if (this.ws[`${column}${startRow + 1}`]) {
-      info += (this.ws[`${column}${startRow + 1}`] as CellObject).w + '\n';
-    }
-    if (this.ws[`${column}${startRow + 2}`]) {
-      info += (this.ws[`${column}${startRow + 2}`] as CellObject).w + '\n';
-    }
-    return info;
-  }
-
-  /**
-   * Conbine cells from 6 row in one string
-   * @param {string} column - column of couse info
-   * @param {number} startRow - row number of course info
-   * @returns string with course info
-   */
-  getStableCourseInfo(column: string, startRow: number): string {
-    let info: string = '';
-    const endRow = startRow + COURSE_SPACE - 1;
-    for (let i = startRow; i <= endRow; i++) {
-      if (this.ws[`${column}${i}`]) {
-        info += (this.ws[`${column}${i}`] as CellObject).w + '\n';
-      }
-    }
-    return info;
+    return course.getCourseInfo();
   }
 
   /**

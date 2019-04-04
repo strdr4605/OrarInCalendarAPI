@@ -1,3 +1,5 @@
+import { CellObject } from 'xlsx/types';
+
 export const GROUPS = 'Grupele';
 export const COURSE_SPACE = 6; // number of rows for each course
 
@@ -26,10 +28,32 @@ export interface IRangeMap {
   end: string;
 }
 
+export interface ICourseDetails {
+  name: string;
+  teacher?: string;
+  room?: string;
+}
+
 export interface ICourseInfo {
-  stable?: string;
-  even?: string;
-  odd?: string;
+  stable?: ICourseDetails;
+  even?: ICourseDetails;
+  odd?: ICourseDetails;
+  stableString?: string;
+  evenString?: string;
+  oddString?: string;
+}
+
+export interface ICourse {
+  courseInfo: ICourseInfo;
+  isStable: boolean;
+  isEven: boolean;
+  isOdd: boolean;
+  getStableCourseString(): string;
+  getEvenOrOddCourseString(startCell: number): string;
+  getCourseName(info: string): string;
+  getCourseTeacher(info: string): string;
+  getCourseRoom(info: string): string;
+  getCourseInfo(): ICourseInfo;
 }
 
 export interface IGroupSchedule {
