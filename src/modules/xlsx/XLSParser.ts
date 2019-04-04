@@ -1,5 +1,15 @@
 import { CellObject, WorkSheet } from 'xlsx/types';
-import { COURSE_SPACE, GROUPS, IWeekdaysHoursRows, XLSCourseHoursEnum, XLSWeekdaysEnum } from './interface';
+import { Course } from './Course';
+import {
+  COURSE_SPACE,
+  GROUPS,
+  GroupWeeklySchedule,
+  ICourseInfo,
+  IGroupSchedule,
+  WeekdaysHoursRows,
+  XLSCourseHoursEnum,
+  XLSWeekdaysEnum,
+} from './interface';
 import { COLUMN_REGEX, GROUP_NAME_REGEX, NUMBER_REGEX, rowRegex } from './regex';
 import { XLSUtils } from './XLSUtils';
 
@@ -10,7 +20,7 @@ import { XLSUtils } from './XLSUtils';
 export class XLSParser {
   groupsRow: number;
   groupsColumns: Record<string, string>;
-  weekdaysHoursRows: IWeekdaysHoursRows;
+  weekdaysHoursRows: WeekdaysHoursRows;
 
   constructor(private readonly ws: WorkSheet) {
     this.groupsRow = this.getGroupsRow();
@@ -115,5 +125,95 @@ export class XLSParser {
         }
       }
     }
+  }
+
+  /**
+   * Get Info about a course on specific row and column
+   * @param {string} column - column of couse info
+   * @param {number} startRow - row number of course info
+   * @returns Course info (stable, even, odd)!
+   */
+  getCourseInfo(column: string, startRow: number): ICourseInfo {
+    const courseCells: CellObject[] = [
+      this.ws[`${column}${startRow}`],
+      this.ws[`${column}${startRow + 1}`],
+      this.ws[`${column}${startRow + 2}`],
+      this.ws[`${column}${startRow + 3}`],
+      this.ws[`${column}${startRow + 4}`],
+      this.ws[`${column}${startRow + 5}`],
+    ];
+    const course = new Course(courseCells);
+
+    return course.getCourseInfo();
+  }
+
+  /**
+   * Get weekly schedule for specific group
+   * @param {string} groupName - Name of group to generate schedule
+   * @returns GroupName and Schedule
+   */
+  getWeeklyScheduleByGroup(groupName: string): IGroupSchedule {
+    const groupColumn: string | undefined = this.groupsColumns[groupName];
+    if (groupColumn === undefined) {
+      throw new Error(`Group Name '${groupName}' was not found.`);
+    }
+    const groupWeeklySchedule: GroupWeeklySchedule = {
+      [XLSWeekdaysEnum.Monday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Tuesday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Wednesday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Thursday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+      [XLSWeekdaysEnum.Friday]: {
+        [XLSCourseHoursEnum.Course1]: {},
+        [XLSCourseHoursEnum.Course2]: {},
+        [XLSCourseHoursEnum.Course3]: {},
+        [XLSCourseHoursEnum.Course4]: {},
+        [XLSCourseHoursEnum.Course5]: {},
+        [XLSCourseHoursEnum.Course6]: {},
+        [XLSCourseHoursEnum.Course7]: {},
+      },
+    };
+
+    for (const day of Object.keys(this.weekdaysHoursRows)) {
+      for (const hour of Object.keys(this.weekdaysHoursRows[day])) {
+        groupWeeklySchedule[day][hour] = this.getCourseInfo(groupColumn, this.weekdaysHoursRows[day][hour]);
+      }
+    }
+
+    return {
+      groupName,
+      weeklySchedule: groupWeeklySchedule,
+    };
   }
 }
