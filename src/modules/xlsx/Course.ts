@@ -45,52 +45,37 @@ export class Course implements ICourse {
   getCourseName(info: string): string {
     return info.split('\n')[0];
   }
-  getCourseTeacher(info: string): string {
-    return info.split('\n')[1];
+
+  getCourseTeacher(info: string): string | undefined {
+    const infoArray = info.split('\n');
+    return infoArray.find(str => !!str.match(/[A-Z]\./) && !!str.match(/[A-Z][a-z]/)); // if match "D. Strainu" or "D.Strainu"
   }
-  getCourseRoom(info: string): string {
-    return info.split('\n')[2];
+
+  getCourseRoom(info: string): string | undefined {
+    const infoArray = info.split('\n');
+    return infoArray.find(str => !!str.match(/\d/));
   }
+
+  stringToCourseDetails(courseType: string) {
+    const courseTypeStr = courseType + 'String';
+    this.courseInfo[courseType] = {
+      name: this.getCourseName(this.courseInfo[courseTypeStr]),
+      teacher: this.getCourseTeacher(this.courseInfo[courseTypeStr]),
+      room: this.getCourseRoom(this.courseInfo[courseTypeStr]),
+    };
+    delete this.courseInfo[courseTypeStr];
+  }
+
   getCourseInfo(): ICourseInfo {
     if (this.courseInfo.stableString) {
-      this.courseInfo.stable = {
-        name: this.getCourseName(this.courseInfo.stableString),
-        room: this.getCourseRoom(this.courseInfo.stableString),
-      };
-      const teacher: string = this.getCourseTeacher(this.courseInfo.stableString);
-      if (teacher.length && !teacher.match(/\d/)) {
-        this.courseInfo.stable.teacher = teacher;
+      this.stringToCourseDetails('stable');
+    } else {
+      if (this.courseInfo.oddString) {
+        this.stringToCourseDetails('odd');
       }
-      this.courseInfo.stable.room =
-        this.courseInfo.stable.room && this.courseInfo.stable.room.length ? this.courseInfo.stable.room : teacher.match(/\d/) ? teacher : undefined;
-      delete this.courseInfo.stableString;
-    }
-    if (this.courseInfo.oddString) {
-      this.courseInfo.odd = {
-        name: this.getCourseName(this.courseInfo.oddString),
-        room: this.getCourseRoom(this.courseInfo.oddString),
-      };
-      const teacher: string = this.getCourseTeacher(this.courseInfo.oddString);
-      if (teacher.length && !teacher.match(/\d/)) {
-        this.courseInfo.odd.teacher = teacher;
+      if (this.courseInfo.evenString) {
+        this.stringToCourseDetails('even');
       }
-      this.courseInfo.odd.room =
-        this.courseInfo.odd.room && this.courseInfo.odd.room.length ? this.courseInfo.odd.room : teacher.match(/\d/) ? teacher : undefined;
-      delete this.courseInfo.oddString;
-    }
-    if (this.courseInfo.evenString) {
-      this.courseInfo.even = {
-        name: this.getCourseName(this.courseInfo.evenString),
-        teacher: this.getCourseTeacher(this.courseInfo.evenString),
-        room: this.getCourseRoom(this.courseInfo.evenString),
-      };
-      const teacher: string = this.getCourseTeacher(this.courseInfo.evenString);
-      if (teacher.length && !teacher.match(/\d/)) {
-        this.courseInfo.even.teacher = teacher;
-      }
-      this.courseInfo.even.room =
-        this.courseInfo.even.room && this.courseInfo.even.room.length ? this.courseInfo.even.room : teacher.match(/\d/) ? teacher : undefined;
-      delete this.courseInfo.evenString;
     }
     return this.courseInfo;
   }
