@@ -63,3 +63,4 @@ typings/
 # OrarInCalendar
 dist
 src/modules/xlsx/assets
+src/modules/calendar/token.json
