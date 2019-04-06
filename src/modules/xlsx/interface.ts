@@ -13,6 +13,16 @@ export enum XLSWeekdaysEnum {
   // Sunday = 'Duminică',
 }
 
+export enum WeekdaysEnumEN {
+  Monday = 'Monday',
+  Tuesday = 'Tuesday',
+  Wednesday = 'Wednesday',
+  Thursday = 'Thursday',
+  Friday = 'Friday',
+  // Saturday = 'Saturday',
+  // Sunday = 'Sunday',
+}
+
 export enum XLSCourseHoursEnum {
   Course1 = '8.00-9.30',
   Course2 = '9.45-11.15',
@@ -62,4 +72,4 @@ export interface IGroupSchedule {
 }
 
 export type WeekdaysHoursRows = { [key in XLSWeekdaysEnum]: { [key2 in XLSCourseHoursEnum]: number } };
-export type GroupWeeklySchedule = { [key in XLSWeekdaysEnum]: { [key2 in XLSCourseHoursEnum]: ICourseInfo } };
+export type GroupWeeklySchedule = { [key in WeekdaysEnumEN]: { [key2 in XLSCourseHoursEnum]: ICourseInfo } };

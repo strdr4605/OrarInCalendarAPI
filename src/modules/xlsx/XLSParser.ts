@@ -6,6 +6,7 @@ import {
   GroupWeeklySchedule,
   ICourseInfo,
   IGroupSchedule,
+  WeekdaysEnumEN,
   WeekdaysHoursRows,
   XLSCourseHoursEnum,
   XLSWeekdaysEnum,
@@ -158,7 +159,7 @@ export class XLSParser {
       throw new Error(`Group Name '${groupName}' was not found.`);
     }
     const groupWeeklySchedule: GroupWeeklySchedule = {
-      [XLSWeekdaysEnum.Monday]: {
+      [WeekdaysEnumEN.Monday]: {
         [XLSCourseHoursEnum.Course1]: {},
         [XLSCourseHoursEnum.Course2]: {},
         [XLSCourseHoursEnum.Course3]: {},
@@ -167,7 +168,7 @@ export class XLSParser {
         [XLSCourseHoursEnum.Course6]: {},
         [XLSCourseHoursEnum.Course7]: {},
       },
-      [XLSWeekdaysEnum.Tuesday]: {
+      [WeekdaysEnumEN.Tuesday]: {
         [XLSCourseHoursEnum.Course1]: {},
         [XLSCourseHoursEnum.Course2]: {},
         [XLSCourseHoursEnum.Course3]: {},
@@ -176,7 +177,7 @@ export class XLSParser {
         [XLSCourseHoursEnum.Course6]: {},
         [XLSCourseHoursEnum.Course7]: {},
       },
-      [XLSWeekdaysEnum.Wednesday]: {
+      [WeekdaysEnumEN.Wednesday]: {
         [XLSCourseHoursEnum.Course1]: {},
         [XLSCourseHoursEnum.Course2]: {},
         [XLSCourseHoursEnum.Course3]: {},
@@ -185,7 +186,7 @@ export class XLSParser {
         [XLSCourseHoursEnum.Course6]: {},
         [XLSCourseHoursEnum.Course7]: {},
       },
-      [XLSWeekdaysEnum.Thursday]: {
+      [WeekdaysEnumEN.Thursday]: {
         [XLSCourseHoursEnum.Course1]: {},
         [XLSCourseHoursEnum.Course2]: {},
         [XLSCourseHoursEnum.Course3]: {},
@@ -194,7 +195,7 @@ export class XLSParser {
         [XLSCourseHoursEnum.Course6]: {},
         [XLSCourseHoursEnum.Course7]: {},
       },
-      [XLSWeekdaysEnum.Friday]: {
+      [WeekdaysEnumEN.Friday]: {
         [XLSCourseHoursEnum.Course1]: {},
         [XLSCourseHoursEnum.Course2]: {},
         [XLSCourseHoursEnum.Course3]: {},
@@ -207,7 +208,8 @@ export class XLSParser {
 
     for (const day of Object.keys(this.weekdaysHoursRows)) {
       for (const hour of Object.keys(this.weekdaysHoursRows[day])) {
-        groupWeeklySchedule[day][hour] = this.getCourseInfo(groupColumn, this.weekdaysHoursRows[day][hour]);
+        const dayEN = Object.keys(WeekdaysEnumEN)[Object.values(XLSWeekdaysEnum).indexOf(day)]; // Find english equivalent of romanian day
+        groupWeeklySchedule[dayEN][hour] = this.getCourseInfo(groupColumn, this.weekdaysHoursRows[day][hour]);
       }
     }
 
