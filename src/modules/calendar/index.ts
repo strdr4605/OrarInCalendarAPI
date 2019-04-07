@@ -1,4 +1,5 @@
 import { CalendarService } from './Calendar.service';
+import { ICreateEvent } from './interface';
 
 async function run() {
   // CalendarService.listEvents({
@@ -13,15 +14,15 @@ async function run() {
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultGet, undefined, 2));
 
-  const resultCreate = await CalendarService.createCalendar({ resource: { summary: 'Test Calendar', timeZone: 'Europe/Chisinau' } });
-  // tslint:disable:no-console
-  console.log(JSON.stringify(resultCreate, undefined, 2));
+  // const resultCreate = await CalendarService.createCalendar({ resource: { summary: 'Test Calendar', timeZone: 'Europe/Chisinau' } });
+  // // tslint:disable:no-console
+  // console.log(JSON.stringify(resultCreate, undefined, 2));
 
   const startTime = new Date();
   const endTime = new Date();
   endTime.setHours(endTime.getHours() + 1);
 
-  const event = {
+  const event: ICreateEvent = {
     summary: 'Test event',
     start: {
       dateTime: startTime.toISOString(),
@@ -33,9 +34,12 @@ async function run() {
     },
   };
 
-  const resultAddEvent = await CalendarService.addEventInCalendar({ calendarId: 'primary', resource: event });
-  // tslint:disable:no-console
-  console.log(JSON.stringify(resultAddEvent, undefined, 2));
+  // const resultAddEvent = await CalendarService.addEventInCalendar({
+  //   calendarId: '3i2657065ckup73h6dap71gc9k@group.calendar.google.com',
+  //   resource: event,
+  // });
+  // // tslint:disable:no-console
+  // console.log(JSON.stringify(resultAddEvent, undefined, 2));
 
   // const resultDelete = await CalendarService.deleteCalendar({ calendarId: '' });
   // // tslint:disable:no-console
