@@ -61,4 +61,28 @@ export class CalendarService {
       });
     });
   }
+
+  static async deleteCalendar(options): Promise<any> {
+    return await GoogleAPI.authorizeAndExec(auth => {
+      const calendar = google.calendar({ version: 'v3', auth });
+      return new Promise((resolve, reject) => {
+        calendar.calendars.delete(options, (err, res) => {
+          if (err) reject(err);
+          resolve(res.data);
+        });
+      });
+    });
+  }
+
+  static async addEventInCalendar(options): Promise<any> {
+    return await GoogleAPI.authorizeAndExec(auth => {
+      const calendar = google.calendar({ version: 'v3', auth });
+      return new Promise((resolve, reject) => {
+        calendar.events.insert(options, (err, res) => {
+          if (err) reject(err);
+          resolve(res.data);
+        });
+      });
+    });
+  }
 }
