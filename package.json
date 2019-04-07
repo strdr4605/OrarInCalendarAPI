@@ -19,7 +19,7 @@
     "prestart:prod": "rimraf dist && tsc",
     "start:prod": "node dist/main.js",
     "bin:xlsx": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register src/modules/xlsx/index.ts",
-    "bin:calendar": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register src/modules/calendar/index.ts",
+    "bin:google": "node -r ts-node/register -r dotenv/config -r tsconfig-paths/register src/modules/google/index.ts",
     "debug:bin:xlsx": "node --inspect-brk -r ts-node/register -r dotenv/config -r tsconfig-paths/register src/modules/xlsx/index.ts",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",

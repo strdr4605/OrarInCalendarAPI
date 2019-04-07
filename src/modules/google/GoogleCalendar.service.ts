@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 import { GoogleAPI } from './GoogleAPI.service';
 
-export class CalendarService {
+export class GoogleCalendarService {
   /**
    * Lists the next 10 events on the user's primary calendar.
    * @param options - options

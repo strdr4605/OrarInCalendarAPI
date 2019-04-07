@@ -1,4 +1,4 @@
-import { CalendarService } from './Calendar.service';
+import { GoogleCalendarService } from './GoogleCalendar.service';
 import { ICreateEvent } from './interface';
 
 async function run() {
@@ -45,7 +45,7 @@ async function run() {
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultDelete, undefined, 2));
 
-  const result = await CalendarService.listCalendars();
+  const result = await GoogleCalendarService.listCalendars();
   // tslint:disable:no-console
   console.log(JSON.stringify(result, undefined, 2));
 }
