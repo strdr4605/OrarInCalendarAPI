@@ -20,11 +20,11 @@ export class XLSUtils {
   static saveToFile(file: string, data: any): void {
     const wb: WorkBook = this.makeBook(data);
     /* write using writeFile */
-    writeFile(wb, __dirname + file);
+    writeFile(wb, file);
     console.log(`\nwrote to ${file}`);
   }
 
-  static loadFile = (file: string): WorkBook => readFile(__dirname + file);
+  static loadFile = (file: string): WorkBook => readFile(file);
 
   /**
    * Deletes all cells from row 1 to 6 and from 225 to 999
