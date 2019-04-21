@@ -10,11 +10,11 @@ async function run() {
   //   orderBy: 'startTime',
   // });
 
-  // const resultGet = await CalendarService.getCalendar({ calendarId: 'primary' });
+  // const resultGet = await GoogleCalendarService.getCalendar({ calendarId: 'primary' });
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultGet, undefined, 2));
 
-  // const resultCreate = await CalendarService.createCalendar({ resource: { summary: 'Test Calendar', timeZone: 'Europe/Chisinau' } });
+  // const resultCreate = await GoogleCalendarService.createCalendar({ resource: { summary: 'DEv Test Calendar', timeZone: 'Europe/Chisinau' } });
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultCreate, undefined, 2));
 
@@ -34,14 +34,14 @@ async function run() {
     },
   };
 
-  // const resultAddEvent = await CalendarService.addEventInCalendar({
+  // const resultAddEvent = await GoogleCalendarService.addEventInCalendar({
   //   calendarId: '3i2657065ckup73h6dap71gc9k@group.calendar.google.com',
   //   resource: event,
   // });
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultAddEvent, undefined, 2));
 
-  // const resultDelete = await CalendarService.deleteCalendar({ calendarId: '' });
+  // const resultDelete = await GoogleCalendarService.deleteCalendar({ calendarId: '' });
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultDelete, undefined, 2));
 
