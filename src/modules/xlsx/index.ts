@@ -27,4 +27,4 @@ function run() {
   console.log(JSON.stringify(xlsParser.getWeeklyScheduleByGroup('FAF-181'), undefined, 2));
 }
 
-run();
+// run();
