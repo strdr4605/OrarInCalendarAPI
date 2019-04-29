@@ -14,6 +14,7 @@ export interface ICreateEvent {
   attendees?: IAttendant[];
   description?: string;
   summary?: string;
+  recurrence?: string[];
 }
 
 export interface ICalendarEntry {
@@ -32,4 +33,24 @@ export interface ICalendarEntry {
 export interface ICalendarsList {
   kind: string;
   items: ICalendarEntry[];
+}
+
+export interface IEventsList {
+  kind: string;
+  items: IEvent[];
+}
+
+export interface IEvent {
+  kind: string;
+  etag: string;
+  id: string;
+  status: string;
+  htmlLink: string;
+  created: Date;
+  updated: Date;
+  summary: string;
+  description: string;
+  recurrence: string[];
+  iCalUID: string;
+  sequence: number;
 }

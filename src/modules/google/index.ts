@@ -1,15 +1,7 @@
 import { GoogleCalendarService } from './GoogleCalendar.service';
-import { ICreateEvent } from './interface';
+import { ICreateEvent, IEventsList } from './interface';
 
 async function run() {
-  // CalendarService.listEvents({
-  //   calendarId: 'primary',
-  //   timeMin: new Date().toISOString(),
-  //   maxResults: 10,
-  //   singleEvents: true,
-  //   orderBy: 'startTime',
-  // });
-
   // const resultGet = await GoogleCalendarService.getCalendar({ calendarId: 'primary' });
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultGet, undefined, 2));
@@ -45,9 +37,13 @@ async function run() {
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultDelete, undefined, 2));
 
-  const result = await GoogleCalendarService.listCalendars();
+  // const result = await GoogleCalendarService.listCalendars();
+  // // tslint:disable:no-console
+  // console.log(JSON.stringify(result, undefined, 2));
+
+  const result: IEventsList = await GoogleCalendarService.getEventsInCalendar({ calendarId: 'gp8p46oi9i66av9bn80r32nm98@group.calendar.google.com' });
   // tslint:disable:no-console
-  console.log(JSON.stringify(result, undefined, 2));
+  console.log(JSON.stringify(result.items.map(el => el.id), undefined, 2));
 }
 
 run();
