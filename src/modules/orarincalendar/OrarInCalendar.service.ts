@@ -13,7 +13,7 @@ export class OrarInCalendarService {
     const result: ICalendarsList = await GoogleCalendarService.listCalendars();
     const foundCalendar: ICalendarEntry | undefined = result.items.find(el => el.summary === calendarSumary);
     this.calendarEntry =
-      foundCalendar || (await GoogleCalendarService.createCalendar({ resource: { summary: calendarSumary, timeZone: 'Europe/Chisinau' } }));
+      foundCalendar || (await GoogleCalendarService.createCalendar({ resource: { summary: calendarSumary, timeZone: process.env.TIME_ZONE } }));
   }
 
   getCalendar(): ICalendarEntry {

@@ -14,7 +14,7 @@ async function run() {
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultGet, undefined, 2));
 
-  // const resultCreate = await GoogleCalendarService.createCalendar({ resource: { summary: 'DEv Test Calendar', timeZone: 'Europe/Chisinau' } });
+  // const resultCreate = await GoogleCalendarService.createCalendar({ resource: { summary: 'DEv Test Calendar', timeZone: process.env.TIME_ZONE } });
   // // tslint:disable:no-console
   // console.log(JSON.stringify(resultCreate, undefined, 2));
 
@@ -26,16 +26,16 @@ async function run() {
     summary: 'Test event',
     start: {
       dateTime: startTime.toISOString(),
-      timeZone: 'Europe/Chisinau',
+      timeZone: process.env.TIME_ZONE,
     },
     end: {
       dateTime: endTime.toISOString(),
-      timeZone: 'Europe/Chisinau',
+      timeZone: process.env.TIME_ZONE,
     },
   };
 
   // const resultAddEvent = await GoogleCalendarService.addEventInCalendar({
-  //   calendarId: '3i2657065ckup73h6dap71gc9k@group.calendar.google.com',
+  //   calendarId: 'primary',
   //   resource: event,
   // });
   // // tslint:disable:no-console
