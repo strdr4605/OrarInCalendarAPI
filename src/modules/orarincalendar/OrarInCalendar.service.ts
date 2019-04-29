@@ -18,4 +18,8 @@ export class OrarInCalendarService {
   getCalendar(): ICalendarEntry {
     return this.calendarEntry;
   }
+
+  getSchedule(): IGroupSchedule {
+    return this.groupSchedule;
+  }
 }

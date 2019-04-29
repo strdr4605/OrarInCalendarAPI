@@ -8,11 +8,12 @@ async function run() {
   const ws: WorkSheet = XLSUtils.deleteUnusedCells(wb.Sheets[wb.SheetNames[0]]);
   XLSUtils.fillMerges(ws);
   const xlsParser: XLSParser = new XLSParser(ws);
-  const ti181: OrarInCalendarService = new OrarInCalendarService(new Date('2019-04-22'), new Date('2019-04-27'));
-  const ti181schedule = xlsParser.getWeeklyScheduleByGroup('TI-181');
-  await ti181.init(ti181schedule);
+  const faf181: OrarInCalendarService = new OrarInCalendarService(new Date('2019-04-29'), new Date('2019-05-27'));
+  const faf181schedule = xlsParser.getWeeklyScheduleByGroup('FAF-181');
+  await faf181.init(faf181schedule);
   // tslint:disable:no-console
-  console.log(JSON.stringify(ti181.getCalendar(), undefined, 2));
+  console.log(JSON.stringify(faf181.getCalendar(), undefined, 2));
+  console.log(JSON.stringify(faf181.getSchedule(), undefined, 2));
 }
 
 run();
