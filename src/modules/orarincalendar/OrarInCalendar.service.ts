@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { GoogleCalendarService } from '../google/GoogleCalendar.service';
 import { ICalendarEntry, ICalendarsList } from '../google/interface';
 import { IGroupSchedule } from '../xlsx/interface';
@@ -5,7 +6,7 @@ import { IGroupSchedule } from '../xlsx/interface';
 export class OrarInCalendarService {
   calendarEntry: ICalendarEntry;
   groupSchedule: IGroupSchedule;
-  constructor(startDate: Date, endDate: Date) {}
+  constructor(private readonly startDate: DateTime, private readonly endDate: DateTime) {}
   async init(groupSchedule: IGroupSchedule) {
     this.groupSchedule = groupSchedule;
     const calendarSumary: string = `${process.env.CALENDAR_PREFIX}-${this.groupSchedule.groupName}`;
