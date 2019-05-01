@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 import { GoogleAPI } from './GoogleAPI.service';
-import { ICreateEvent, IEventsList } from './interface';
+import { IAddEvent, ICalendar, ICreateCalendar, IEvent, IEventsList } from './interface';
 
 export class GoogleCalendarService {
   /**
@@ -39,7 +39,7 @@ export class GoogleCalendarService {
     });
   }
 
-  static async createCalendar(options): Promise<any> {
+  static async createCalendar(options: ICreateCalendar): Promise<any> {
     return await GoogleAPI.authorizeAndExec(auth => {
       const calendar = google.calendar({ version: 'v3', auth });
       return new Promise((resolve, reject) => {
@@ -51,7 +51,7 @@ export class GoogleCalendarService {
     });
   }
 
-  static async getCalendar(options: { calendarId: string }): Promise<any> {
+  static async getCalendar(options: ICalendar): Promise<any> {
     return await GoogleAPI.authorizeAndExec(auth => {
       const calendar = google.calendar({ version: 'v3', auth });
       return new Promise((resolve, reject) => {
@@ -63,7 +63,7 @@ export class GoogleCalendarService {
     });
   }
 
-  static async deleteCalendar(options: { calendarId: string }): Promise<any> {
+  static async deleteCalendar(options: ICalendar): Promise<any> {
     return await GoogleAPI.authorizeAndExec(auth => {
       const calendar = google.calendar({ version: 'v3', auth });
       return new Promise((resolve, reject) => {
@@ -75,7 +75,7 @@ export class GoogleCalendarService {
     });
   }
 
-  static async addEventInCalendar(options: { calendarId: string; resource: ICreateEvent }): Promise<any> {
+  static async addEventInCalendar(options: IAddEvent): Promise<any> {
     return await GoogleAPI.authorizeAndExec(auth => {
       const calendar = google.calendar({ version: 'v3', auth });
       return new Promise((resolve, reject) => {
@@ -87,7 +87,7 @@ export class GoogleCalendarService {
     });
   }
 
-  static async getEventsInCalendar(options: { calendarId: string }): Promise<IEventsList> {
+  static async getEventsInCalendar(options: ICalendar): Promise<IEventsList> {
     return (await GoogleAPI.authorizeAndExec(auth => {
       const calendar = google.calendar({ version: 'v3', auth });
       return new Promise((resolve, reject) => {
@@ -99,7 +99,7 @@ export class GoogleCalendarService {
     })) as IEventsList;
   }
 
-  static async deleteEvent(options: { calendarId: string; eventId: string }): Promise<any> {
+  static async deleteEvent(options: IEvent): Promise<any> {
     return await GoogleAPI.authorizeAndExec(auth => {
       const calendar = google.calendar({ version: 'v3', auth });
       return new Promise((resolve, reject) => {

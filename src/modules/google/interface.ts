@@ -1,3 +1,24 @@
+export interface ICreateCalendar {
+  resource: {
+    summary: string;
+    timeZone?: string;
+  };
+}
+
+export interface ICalendar {
+  calendarId: string;
+}
+
+export interface IEvent {
+  calendarId: string;
+  eventId: string;
+}
+
+export interface IAddEvent {
+  calendarId: string;
+  resource: ICreateEvent;
+}
+
 export interface IAttendant {
   email: string;
 }
