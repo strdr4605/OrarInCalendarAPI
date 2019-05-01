@@ -1,3 +1,4 @@
+import colors = require('colors/safe');
 import { isEmpty } from 'lodash';
 import { DateTime } from 'luxon';
 import { GoogleCalendarService } from '../google/GoogleCalendar.service';
@@ -83,9 +84,11 @@ export class OrarInCalendarService {
     });
     // tslint:disable:no-console
     console.log(
-      `Add Event: ${resultAddEvent.id} | summary: ${resultAddEvent.summary} | calendarId: ${resultAddEvent.organizer.email} | calendarName: ${
-        resultAddEvent.organizer.displayName
-      }`,
+      colors.yellow(
+        `Add Event: ${colors.green(resultAddEvent.id)} | summary: ${colors.magenta(resultAddEvent.summary)} | calendarId: ${colors.green(
+          resultAddEvent.organizer.email,
+        )} | calendarName: ${colors.magenta(resultAddEvent.organizer.displayName)}`,
+      ),
     );
   }
 
