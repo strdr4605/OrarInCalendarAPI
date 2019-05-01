@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { DateTime } from 'luxon';
 import { GoogleCalendarService } from '../google/GoogleCalendar.service';
-import { ICalendarEntry, ICalendarsList, ICreateEvent, IEventsList } from '../google/interface';
+import { ICalendarEntry, ICalendarsList, ICreateEvent, IEvent, IEventsList } from '../google/interface';
 import { ICourseDetails, IGroupSchedule, WeekdaysEnumEN } from '../xlsx/interface';
 import { Day } from './interface';
 
@@ -55,7 +55,7 @@ export class OrarInCalendarService {
     }
   }
 
-  async stable(courseDetails: ICourseDetails, courseTime: string, dayCount: number) {
+  async genericAddEvent(courseDetails: ICourseDetails, courseTime: string, dayCount: number, interval: number = 1) {
     const { courseStartDate, courseEndDate } = this.getCourseTime(courseTime, dayCount);
     const event: ICreateEvent = {
       summary: courseDetails.name,
@@ -69,7 +69,7 @@ export class OrarInCalendarService {
       },
       description: `${courseDetails.room ? 'Cab. ' + courseDetails.room : ''}\n${courseDetails.teacher ? courseDetails.teacher : ''}\n`,
       recurrence: [
-        `RRULE:FREQ=WEEKLY;UNTIL=${this.endDate
+        `RRULE:FREQ=WEEKLY;INTERVAL=${interval};UNTIL=${this.endDate
           .toUTC()
           .toISO()
           .replace(/[\-:]/gi, '')
@@ -77,71 +77,28 @@ export class OrarInCalendarService {
       ],
     };
 
-    const resultAddEvent = await GoogleCalendarService.addEventInCalendar({
+    const resultAddEvent: IEvent = await GoogleCalendarService.addEventInCalendar({
       calendarId: this.calendarEntry.id,
       resource: event,
     });
     // tslint:disable:no-console
-    console.log(JSON.stringify(resultAddEvent, undefined, 2));
+    console.log(
+      `Add Event: ${resultAddEvent.id} | summary: ${resultAddEvent.summary} | calendarId: ${resultAddEvent.organizer.email} | calendarName: ${
+        resultAddEvent.organizer.displayName
+      }`,
+    );
+  }
+
+  async stable(courseDetails: ICourseDetails, courseTime: string, dayCount: number) {
+    await this.genericAddEvent(courseDetails, courseTime, dayCount);
   }
 
   async odd(courseDetails: ICourseDetails, courseTime: string, dayCount: number) {
-    const { courseStartDate, courseEndDate } = this.getCourseTime(courseTime, dayCount);
-    const event: ICreateEvent = {
-      summary: courseDetails.name,
-      start: {
-        dateTime: courseStartDate.toISO(),
-        timeZone: process.env.TIME_ZONE,
-      },
-      end: {
-        dateTime: courseEndDate.toISO(),
-        timeZone: process.env.TIME_ZONE,
-      },
-      description: `${courseDetails.room ? 'Cab. ' + courseDetails.room : ''}\n${courseDetails.teacher ? courseDetails.teacher : ''}\n`,
-      recurrence: [
-        `RRULE:FREQ=WEEKLY;INTERVAL=2;UNTIL=${this.endDate
-          .toUTC()
-          .toISO()
-          .replace(/[\-:]/gi, '')
-          .replace(/\.000/gi, '')}`,
-      ],
-    };
-
-    const resultAddEvent = await GoogleCalendarService.addEventInCalendar({
-      calendarId: this.calendarEntry.id,
-      resource: event,
-    });
-    // tslint:disable:no-console
-    console.log(JSON.stringify(resultAddEvent, undefined, 2));
+    await this.genericAddEvent(courseDetails, courseTime, dayCount, 2);
   }
   async even(courseDetails: ICourseDetails, courseTime: string, dayCount: number) {
-    const { courseStartDate, courseEndDate } = this.getCourseTime(courseTime, dayCount);
-    const event: ICreateEvent = {
-      summary: courseDetails.name,
-      start: {
-        dateTime: courseStartDate.toISO(),
-        timeZone: process.env.TIME_ZONE,
-      },
-      end: {
-        dateTime: courseEndDate.toISO(),
-        timeZone: process.env.TIME_ZONE,
-      },
-      description: `${courseDetails.room ? 'Cab. ' + courseDetails.room : ''}\n${courseDetails.teacher ? courseDetails.teacher : ''}\n`,
-      recurrence: [
-        `RRULE:FREQ=WEEKLY;INTERVAL=2;UNTIL=${this.endDate
-          .toUTC()
-          .toISO()
-          .replace(/[\-:]/gi, '')
-          .replace(/\.000/gi, '')}`,
-      ],
-    };
-
-    const resultAddEvent = await GoogleCalendarService.addEventInCalendar({
-      calendarId: this.calendarEntry.id,
-      resource: event,
-    });
-    // tslint:disable:no-console
-    console.log(JSON.stringify(resultAddEvent, undefined, 2));
+    const ONE_WEEK_IN_DAYS = 7;
+    await this.genericAddEvent(courseDetails, courseTime, dayCount + ONE_WEEK_IN_DAYS, 2);
   }
 
   getCourseTime(courseTime: string, dayCount: number): Record<string, DateTime> {

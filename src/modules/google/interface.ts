@@ -74,4 +74,9 @@ export interface IEvent {
   recurrence: string[];
   iCalUID: string;
   sequence: number;
+  organizer: {
+    email: string;
+    displayName: string;
+    self: boolean;
+  };
 }
