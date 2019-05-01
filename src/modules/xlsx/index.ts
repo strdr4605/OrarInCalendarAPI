@@ -4,8 +4,12 @@ import { ICourseInfo } from './interface';
 import { XLSParser } from './XLSParser';
 import { XLSUtils } from './XLSUtils';
 
-const INPUT_FILE: string = '/assets/inputs/schedule1.xls';
-const OUTPUT_FILE: string = '/assets/outputs/result1.xls';
+export const INPUT_FILE: string = __dirname + '/assets/inputs/schedule1.xls';
+export const OUTPUT_FILE: string = __dirname + '/assets/outputs/result1.xls';
+
+export * from './XLSParser';
+export * from './XLSUtils';
+export * from './interface';
 
 function run() {
   // tslint:disable:no-console
@@ -23,4 +27,4 @@ function run() {
   console.log(JSON.stringify(xlsParser.getWeeklyScheduleByGroup('FAF-181'), undefined, 2));
 }
 
-run();
+// run();

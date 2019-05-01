@@ -77,6 +77,7 @@ export class Course implements ICourse {
         this.stringToCourseDetails('even');
       }
     }
+    Object.keys(this.courseInfo).forEach(key => this.courseInfo[key] === undefined && delete this.courseInfo[key]);
     return this.courseInfo;
   }
 }
