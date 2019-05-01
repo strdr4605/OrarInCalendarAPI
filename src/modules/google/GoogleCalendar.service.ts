@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 import { GoogleAPI } from './GoogleAPI.service';
-import { IAddEvent, ICalendar, ICreateCalendar, IEvent, IEventsList } from './interface';
+import { IAddEvent, ICalendar, ICreateCalendar, IEventsList, IGetEvent } from './interface';
 
 export class GoogleCalendarService {
   static async listCalendars(): Promise<any> {
@@ -75,7 +75,7 @@ export class GoogleCalendarService {
     })) as IEventsList;
   }
 
-  static async deleteEvent(options: IEvent): Promise<any> {
+  static async deleteEvent(options: IGetEvent): Promise<any> {
     return await GoogleAPI.authorizeAndExec(auth => {
       const calendar = google.calendar({ version: 'v3', auth });
       return new Promise((resolve, reject) => {

@@ -9,7 +9,7 @@ export interface ICalendar {
   calendarId: string;
 }
 
-export interface IEvent {
+export interface IGetEvent {
   calendarId: string;
   eventId: string;
 }
